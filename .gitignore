@@ -8,6 +8,6 @@
 /M2Crypto.egg-info
 /EGG-INFO
 *.so
-tests/randpool.dat
-tests/sig.p7
-tests/sig.p7s
+test/randpool.dat
+test/sig.p7
+test/sig.p7s
