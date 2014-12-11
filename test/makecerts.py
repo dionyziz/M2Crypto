@@ -31,7 +31,7 @@ def req(name):
     req.set_pubkey(pk)
     n = req.get_subject()
     n.C = 'US'
-    n.O = 'M2Crypto ' + name 
+    n.O = 'M2Crypto ' + name
     n.CN = 'localhost'
     req.sign(pk, 'sha256')
     return req, pk
@@ -48,7 +48,7 @@ def saveTextPemKey(cert, name):
 
 def issue(request, ca, capk):
     global serial
-    
+
     pkey = request.get_pubkey()
     sub = request.get_subject()
 
@@ -60,16 +60,16 @@ def issue(request, ca, capk):
 
     issuer = ca.get_subject()
     cert.set_issuer(issuer)
-    
-    cert.set_pubkey(pkey)     
+
+    cert.set_pubkey(pkey)
 
     cert.set_not_before(before)
     cert.set_not_after(after)
 
     cert.sign(capk, 'sha256')
-    
+
     assert cert.verify(capk)
-    
+
     return cert
 
 def mk_ca():
@@ -87,19 +87,19 @@ def mk_ca():
     issuer.O = sub.O
     issuer.CN = sub.CN
     cert.set_issuer(issuer)
-    
-    cert.set_pubkey(pkey)     
+
+    cert.set_pubkey(pkey)
 
     cert.set_not_before(before)
     cert.set_not_after(after)
 
     ext = X509.new_extension('basicConstraints', 'CA:TRUE')
     cert.add_ext(ext)
-    
+
     cert.sign(pk, 'sha256')
-    
+
     saveTextPemKey(cert, 'ca')
-    
+
     return cert, pk
 
 def mk_server(ca, capk):
@@ -130,7 +130,7 @@ if __name__ == '__main__':
     for name in names:
         rsa = RSA.gen_key(2048, m2.RSA_F4)
         rsa.save_key('%s_key.pem' % name, None)
-    
+
     ca, pk = mk_ca()
     mk_server(ca, pk)
     mk_x509(ca, pk)

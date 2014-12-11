@@ -7,7 +7,7 @@ Copyright (c) 2000 Ng Pheng Siong. All rights reserved."""
 from M2Crypto import BIO, Rand, SMIME, X509
 
 ptxt = """
-S/MIME - Secure Multipurpose Internet Mail Extensions [RFC 2311, RFC 2312] - 
+S/MIME - Secure Multipurpose Internet Mail Extensions [RFC 2311, RFC 2312] -
 provides a consistent way to send and receive secure MIME data. Based on the
 popular Internet MIME standard, S/MIME provides the following cryptographic
 security services for electronic messaging applications - authentication,
@@ -63,7 +63,7 @@ def verify_clear():
         print 'ok'
     else:
         print 'not ok'
-    
+
 def verify_opaque():
     print 'test load & verify opaque...',
     s = SMIME.SMIME()
@@ -80,7 +80,7 @@ def verify_opaque():
         print 'ok'
     else:
         print 'not ok'
-    
+
 def verify_netscape():
     print 'test load & verify netscape messager output...',
     s = SMIME.SMIME()
@@ -95,7 +95,7 @@ def verify_netscape():
     v = s.verify(p7, data)
     print '\n', v, '\n...ok'
 
-    
+
 def sv():
     print 'test sign/verify...',
     buf = makebuf()
@@ -110,7 +110,7 @@ def sv():
     # Output the stuff.
     bio = BIO.MemoryBuffer()
     s.write(bio, p7, buf)
-    
+
     # Plumbing for verification: CA's cert.
     st = X509.X509_Store()
     st.load_info('ca.pem')
@@ -125,7 +125,7 @@ def sv():
     # Verify.
     p7, buf = SMIME.smime_load_pkcs7_bio(bio)
     v = s.verify(p7, flags=SMIME.PKCS7_DETACHED)
-    
+
     if v:
         print 'ok'
     else:
@@ -143,17 +143,17 @@ def ed():
     s.set_x509_stack(sk)
 
     # Add a cipher.
-    s.set_cipher(SMIME.Cipher('bf_cbc')) 
+    s.set_cipher(SMIME.Cipher('bf_cbc'))
 
     # Encrypt.
     p7 = s.encrypt(buf)
-    
+
     # Load target's private key.
     s.load_key('client.pem')
 
     # Decrypt.
     data = s.decrypt(p7)
-    
+
     if data:
         print 'ok'
     else:
@@ -164,7 +164,7 @@ def zope_test():
     print 'test zophistry...'
     f = open('client.pem')
     cert_str = f.read()
-    key_bio = BIO.MemoryBuffer(cert_str)    
+    key_bio = BIO.MemoryBuffer(cert_str)
     cert_bio = BIO.MemoryBuffer(cert_str)   # XXX Kludge.
     s = SMIME.SMIME()
     s.load_key_bio(key_bio, cert_bio)
@@ -179,7 +179,7 @@ def leak_test():
 
 
 if __name__ == '__main__':
-    Rand.load_file('../randpool.dat', -1) 
+    Rand.load_file('../randpool.dat', -1)
     ed()
     sign()
     verify_opaque()

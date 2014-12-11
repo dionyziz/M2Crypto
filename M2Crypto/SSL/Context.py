@@ -16,7 +16,7 @@ class _ctxmap:
         self.map = WeakValueDictionary()
 
     def __getitem__(self, key):
-        return self.map[key] 
+        return self.map[key]
 
     def __setitem__(self, key, value):
         self.map[key] = value
@@ -48,17 +48,17 @@ class Context:
             if protocol == 'sslv23':
                 self.set_options(m2.SSL_OP_ALL | m2.SSL_OP_NO_SSLv2)
             self.set_cipher_list('ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH')
-        
+
     def __del__(self):
         if getattr(self, 'ctx', None):
             self.m2_ssl_ctx_free(self.ctx)
 
     def close(self):
         del map()[long(self.ctx)]
-        
+
     def load_cert(self, certfile, keyfile=None, callback=util.passphrase_callback):
         """Load certificate and private key into the context.
-        
+
         @param certfile: File that contains the PEM-encoded certificate.
         @type certfile:  str
         @param keyfile:  File that contains the PEM-encoded private key.
@@ -72,7 +72,7 @@ class Context:
         """
         m2.ssl_ctx_passphrase_callback(self.ctx, callback)
         m2.ssl_ctx_use_cert(self.ctx, certfile)
-        if not keyfile: 
+        if not keyfile:
             keyfile = certfile
         m2.ssl_ctx_use_privkey(self.ctx, keyfile)
         if not m2.ssl_ctx_check_privkey(self.ctx):
@@ -80,23 +80,23 @@ class Context:
 
     def load_cert_chain(self, certchainfile, keyfile=None, callback=util.passphrase_callback):
         """Load certificate chain and private key into the context.
-        
+
         @param certchainfile: File object containing the PEM-encoded
                               certificate chain.
         @type  certchainfile: str
         @param keyfile:       File object containing the PEM-encoded private
                               key. Default value of None indicates that the
                               private key is to be found in 'certchainfile'.
-        @type keyfile:        str  
+        @type keyfile:        str
 
         @param callback:      Callable object to be invoked if the private key
-                              is passphrase-protected. Default callback 
+                              is passphrase-protected. Default callback
                               provides a simple terminal-style input for the
                               passphrase.
         """
         m2.ssl_ctx_passphrase_callback(self.ctx, callback)
         m2.ssl_ctx_use_cert_chain(self.ctx, certchainfile)
-        if not keyfile: 
+        if not keyfile:
             keyfile = certchainfile
         m2.ssl_ctx_use_privkey(self.ctx, keyfile)
         if not m2.ssl_ctx_check_privkey(self.ctx):
@@ -105,7 +105,7 @@ class Context:
     def set_client_CA_list_from_file(self, cafile):
         """Load CA certs into the context. These CA certs are sent to the
         peer during *SSLv3 certificate request*.
-        
+
         @param cafile: File object containing one or more PEM-encoded CA
                        certificates concatenated together.
         @type cafile:  str
@@ -138,8 +138,8 @@ class Context:
         if not ret:
             raise Err.SSLError(Err.get_error_code(), '')
 
-    def set_allow_unknown_ca(self, ok): 
-        """Set the context to accept/reject a peer certificate if the 
+    def set_allow_unknown_ca(self, ok):
+        """Set the context to accept/reject a peer certificate if the
         certificate's CA is unknown.
 
         @param ok:       True to accept, False to reject.
@@ -157,11 +157,11 @@ class Context:
         """
         Set verify options. Most applications will need to call this
         method with the right options to make a secure SSL connection.
-        
+
         @param mode:     The verification mode to use. Typically at least
                          SSL.verify_peer is used. Clients would also typically
                          add SSL.verify_fail_if_no_peer_cert.
-        @type mode:      int                 
+        @type mode:      int
         @param depth:    The maximum allowed depth of the certificate chain
                          returned by the peer.
         @type depth:     int
@@ -183,7 +183,7 @@ class Context:
     def set_tmp_dh(self, dhpfile):
         """Load ephemeral DH parameters into the context.
 
-        @param dhpfile: File object containing the PEM-encoded DH 
+        @param dhpfile: File object containing the PEM-encoded DH
                         parameters.
         @type dhpfile:  str
         """
@@ -193,7 +193,7 @@ class Context:
 
     def set_tmp_dh_callback(self, callback=None):
         if callback is not None:
-            m2.ssl_ctx_set_tmp_dh_callback(self.ctx, callback) 
+            m2.ssl_ctx_set_tmp_dh_callback(self.ctx, callback)
 
     def set_tmp_rsa(self, rsa):
         """Load ephemeral RSA key into the context.
@@ -207,17 +207,17 @@ class Context:
 
     def set_tmp_rsa_callback(self, callback=None):
         if callback is not None:
-            m2.ssl_ctx_set_tmp_rsa_callback(self.ctx, callback) 
+            m2.ssl_ctx_set_tmp_rsa_callback(self.ctx, callback)
 
     def set_info_callback(self, callback=cb.ssl_info_callback):
         """
         Set a callback function that can be used to get state information
         about the SSL connections that are created from this context.
-        
+
         @param callback: Callback function. The default prints information to
                          stderr.
         """
-        m2.ssl_ctx_set_info_callback(self.ctx, callback) 
+        m2.ssl_ctx_set_info_callback(self.ctx, callback)
 
     def set_cipher_list(self, cipher_list):
         return m2.ssl_ctx_set_cipher_list(self.ctx, cipher_list)
@@ -246,9 +246,9 @@ class Context:
     def get_cert_store(self):
         """
         Get the certificate store associated with this context.
-        
+
         @warning: The store is NOT refcounted, and as such can not be relied
         to be valid once the context goes away or is changed.
         """
         return X509.X509_Store(m2.ssl_ctx_get_cert_store(self.ctx))
-    
+
