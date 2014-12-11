@@ -19,34 +19,34 @@ def suite():
         return mod
 
     modules_to_test = [
-        'tests.test_asn1',
-        'tests.test_bio',
-        'tests.test_bio_membuf',
-        'tests.test_bio_file',
-        'tests.test_bio_iobuf',
-        'tests.test_bio_ssl',
-        'tests.test_bn',
-        'tests.test_authcookie',
-        'tests.test_dh',
-        'tests.test_dsa',
-        'tests.test_engine',
-        'tests.test_evp',
-        'tests.test_obj',
-        'tests.test_rand',
-        'tests.test_rc4',
-        'tests.test_rsa',
-        'tests.test_smime',
-        'tests.test_ssl_offline',
-        'tests.test_threading',
-        'tests.test_x509']
+        'test.test_asn1',
+        'test.test_bio',
+        'test.test_bio_membuf',
+        'test.test_bio_file',
+        'test.test_bio_iobuf',
+        'test.test_bio_ssl',
+        'test.test_bn',
+        'test.test_authcookie',
+        'test.test_dh',
+        'test.test_dsa',
+        'test.test_engine',
+        'test.test_evp',
+        'test.test_obj',
+        'test.test_rand',
+        'test.test_rc4',
+        'test.test_rsa',
+        'test.test_smime',
+        'test.test_ssl_offline',
+        'test.test_threading',
+        'test.test_x509']
     if os.name == 'posix':
-        modules_to_test.append('tests.test_ssl')
+        modules_to_test.append('test.test_ssl')
     elif os.name == 'nt':
-        modules_to_test.append('tests.test_ssl_win')
+        modules_to_test.append('test.test_ssl_win')
     if m2.OPENSSL_VERSION_NUMBER >= 0x90800F and m2.OPENSSL_NO_EC == 0:
-        modules_to_test.append('tests.test_ecdh')
-        modules_to_test.append('tests.test_ecdsa')
-        modules_to_test.append('tests.test_ec_curves')
+        modules_to_test.append('test.test_ecdh')
+        modules_to_test.append('test.test_ecdsa')
+        modules_to_test.append('test.test_ec_curves')
     alltests = unittest.TestSuite()
     for module in map(my_import, modules_to_test):
         alltests.addTest(module.suite())
