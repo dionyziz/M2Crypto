@@ -13,7 +13,7 @@ import sys
 
 class ECDHTestCase(unittest.TestCase):
 
-    privkey = 'tests/ec.priv.pem'
+    privkey = 'test/ec.priv.pem'
 
     def test_init_junk(self):
         self.assertRaises(TypeError, EC.EC, 'junk')

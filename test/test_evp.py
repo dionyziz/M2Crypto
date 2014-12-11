@@ -138,27 +138,27 @@ class EVPTestCase(unittest.TestCase):
 
     def test_verify_final(self):
         from M2Crypto import X509
-        pkey = EVP.load_key('tests/signer_key.pem')
+        pkey = EVP.load_key('test/signer_key.pem')
         pkey.sign_init()
         pkey.sign_update('test  message')
         sig = pkey.sign_final()
 
         # OK
-        x509 = X509.load_cert('tests/signer.pem')
+        x509 = X509.load_cert('test/signer.pem')
         pubkey = x509.get_pubkey()
         pubkey.verify_init()
         pubkey.verify_update('test  message')
         assert pubkey.verify_final(sig) == 1
 
         # wrong cert
-        x509 = X509.load_cert('tests/x509.pem')
+        x509 = X509.load_cert('test/x509.pem')
         pubkey = x509.get_pubkey()
         pubkey.verify_init()
         pubkey.verify_update('test  message')
         assert pubkey.verify_final(sig) == 0
 
         # wrong message
-        x509 = X509.load_cert('tests/signer.pem')
+        x509 = X509.load_cert('test/signer.pem')
         pubkey = x509.get_pubkey()
         pubkey.verify_init()
         pubkey.verify_update('test  message not')
@@ -168,7 +168,7 @@ class EVPTestCase(unittest.TestCase):
         self.assertRaises(BIO.BIOError, EVP.load_key,
                           'thisdoesnotexist-dfgh56789')
         self.assertRaises(EVP.EVPError, EVP.load_key,
-                          'tests/signer.pem') # not a key
+                          'test/signer.pem') # not a key
         self.assertRaises(EVP.EVPError, EVP.load_key_bio,
                           BIO.MemoryBuffer('no a key'))
 

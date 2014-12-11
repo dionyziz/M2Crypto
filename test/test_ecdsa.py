@@ -12,9 +12,9 @@ from M2Crypto import EC, BIO, Rand, m2
 
 class ECDSATestCase(unittest.TestCase):
 
-    errkey = 'tests/rsa.priv.pem'
-    privkey = 'tests/ec.priv.pem'
-    pubkey = 'tests/ec.pub.pem'
+    errkey = 'test/rsa.priv.pem'
+    privkey = 'test/ec.priv.pem'
+    pubkey = 'test/ec.pub.pem'
 
     data = sha.sha('Can you spell subliminal channel?').digest()
 

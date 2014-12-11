@@ -84,7 +84,7 @@ class BaseSSLClientTestCase(unittest.TestCase):
         if pid == 0:
             # openssl must be started in the tests directory for it
             # to find the .pem files
-            os.chdir('tests')
+            os.chdir('test')
             try:
                 os.execvp('openssl', args)
             finally:
@@ -149,8 +149,8 @@ class HttpslibSSLClientTestCase(BaseSSLClientTestCase):
         try:
             from M2Crypto import httpslib
             ctx = SSL.Context()
-            ctx.load_verify_locations(cafile='tests/ca.pem')
-            ctx.load_cert('tests/x509.pem')
+            ctx.load_verify_locations(cafile='test/ca.pem')
+            ctx.load_cert('test/x509.pem')
             ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 1)
             ctx.set_session_cache_mode(m2.SSL_SESS_CACHE_CLIENT)
             c = httpslib.HTTPSConnection(srv_host, srv_port, ssl_context=ctx)
@@ -162,8 +162,8 @@ class HttpslibSSLClientTestCase(BaseSSLClientTestCase):
             # c.close()
 
             ctx2 = SSL.Context()
-            ctx2.load_verify_locations(cafile='tests/ca.pem')
-            ctx2.load_cert('tests/x509.pem')
+            ctx2.load_verify_locations(cafile='test/ca.pem')
+            ctx2.load_cert('test/x509.pem')
             ctx2.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 1)
             ctx2.set_session_cache_mode(m2.SSL_SESS_CACHE_CLIENT)
             c2 = httpslib.HTTPSConnection(srv_host, srv_port, ssl_context=ctx2)
@@ -185,7 +185,7 @@ class HttpslibSSLClientTestCase(BaseSSLClientTestCase):
             from M2Crypto import httpslib
             ctx = SSL.Context()
             ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-            ctx.load_verify_locations('tests/ca.pem')
+            ctx.load_verify_locations('test/ca.pem')
             c = httpslib.HTTPSConnection(srv_host, srv_port, ssl_context=ctx)
             c.request('GET', '/')
             data = c.getresponse().read()
@@ -200,7 +200,7 @@ class HttpslibSSLClientTestCase(BaseSSLClientTestCase):
             from M2Crypto import httpslib
             ctx = SSL.Context()
             ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-            ctx.load_verify_locations('tests/server.pem')
+            ctx.load_verify_locations('test/server.pem')
             c = httpslib.HTTPSConnection(srv_host, srv_port, ssl_context=ctx)
             self.assertRaises(SSL.SSLError, c.request, 'GET', '/')
             c.close()
@@ -231,7 +231,7 @@ class HttpslibSSLClientTestCase(BaseSSLClientTestCase):
             from M2Crypto import httpslib
             ctx = SSL.Context()
             ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-            ctx.load_verify_locations('tests/ca.pem')
+            ctx.load_verify_locations('test/ca.pem')
             c = httpslib.HTTPS(srv_host, srv_port, ssl_context=ctx)
             c.putrequest('GET', '/')
             c.putheader('Accept', 'text/html')
@@ -252,7 +252,7 @@ class HttpslibSSLClientTestCase(BaseSSLClientTestCase):
             from M2Crypto import httpslib
             ctx = SSL.Context()
             ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-            ctx.load_verify_locations('tests/server.pem')
+            ctx.load_verify_locations('test/server.pem')
             c = httpslib.HTTPS(srv_host, srv_port, ssl_context=ctx)
             c.putrequest('GET', '/')
             c.putheader('Accept', 'text/html')
@@ -293,7 +293,7 @@ class MiscSSLClientTestCase(BaseSSLClientTestCase):
         try:
             ctx = SSL.Context()
             ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-            ctx.load_verify_locations('tests/ca.pem')
+            ctx.load_verify_locations('test/ca.pem')
             s = SSL.Connection(ctx)
             s.connect(self.srv_addr)
             data = self.http_get(s)
@@ -307,7 +307,7 @@ class MiscSSLClientTestCase(BaseSSLClientTestCase):
         try:
             ctx = SSL.Context()
             ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-            ctx.load_verify_locations('tests/server.pem')
+            ctx.load_verify_locations('test/server.pem')
             s = SSL.Connection(ctx)
             self.assertRaises(SSL.SSLError, s.connect, self.srv_addr)
             s.close()
@@ -648,7 +648,7 @@ class MiscSSLClientTestCase(BaseSSLClientTestCase):
         try:
             ctx = SSL.Context()
             ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-            ctx.load_verify_locations('tests/ca.pem')
+            ctx.load_verify_locations('test/ca.pem')
             s = SSL.Connection(ctx)
             try:
                 s.connect(self.srv_addr)
@@ -665,7 +665,7 @@ class MiscSSLClientTestCase(BaseSSLClientTestCase):
         try:
             ctx = SSL.Context()
             ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-            ctx.load_verify_locations('tests/server.pem')
+            ctx.load_verify_locations('test/server.pem')
             s = SSL.Connection(ctx)
             self.assertRaises(SSL.SSLError, s.connect, self.srv_addr)
             s.close()
@@ -678,8 +678,8 @@ class MiscSSLClientTestCase(BaseSSLClientTestCase):
         try:
             ctx = SSL.Context()
             ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-            ctx.load_verify_locations('tests/ca.pem')
-            ctx.load_cert('tests/x509.pem')
+            ctx.load_verify_locations('test/ca.pem')
+            ctx.load_cert('test/x509.pem')
             s = SSL.Connection(ctx)
             try:
                 s.connect(self.srv_addr)
@@ -697,8 +697,8 @@ class MiscSSLClientTestCase(BaseSSLClientTestCase):
         try:
             ctx = SSL.Context()
             ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-            ctx.load_verify_locations('tests/ca.pem')
-            ctx.load_cert('tests/x509.pem')
+            ctx.load_verify_locations('test/ca.pem')
+            ctx.load_cert('test/x509.pem')
             s = SSL.Connection(ctx)
             try:
                 s.connect(self.srv_addr)
@@ -716,7 +716,7 @@ class MiscSSLClientTestCase(BaseSSLClientTestCase):
         try:
             ctx = SSL.Context()
             ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-            ctx.load_verify_locations('tests/ca.pem')
+            ctx.load_verify_locations('test/ca.pem')
             s = SSL.Connection(ctx)
             self.assertRaises(SSL.SSLError, s.connect, self.srv_addr)
             s.close()
@@ -729,7 +729,7 @@ class MiscSSLClientTestCase(BaseSSLClientTestCase):
         try:
             ctx = SSL.Context()
             ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-            ctx.load_verify_locations('tests/ca.pem')
+            ctx.load_verify_locations('test/ca.pem')
             s = SSL.Connection(ctx)
             self.assertRaises(SSL.SSLError, s.connect, self.srv_addr)
             s.close()
@@ -864,7 +864,7 @@ class Urllib2SSLClientTestCase(BaseSSLClientTestCase):
             try:
                 ctx = SSL.Context()
                 ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-                ctx.load_verify_locations('tests/ca.pem')
+                ctx.load_verify_locations('test/ca.pem')
 
                 from M2Crypto import m2urllib2
                 opener = m2urllib2.build_opener(ctx)
@@ -881,7 +881,7 @@ class Urllib2SSLClientTestCase(BaseSSLClientTestCase):
             try:
                 ctx = SSL.Context()
                 ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-                ctx.load_verify_locations('tests/server.pem')
+                ctx.load_verify_locations('test/server.pem')
 
                 from M2Crypto import m2urllib2
                 opener = m2urllib2.build_opener(ctx)
@@ -998,7 +998,7 @@ class FtpsLibTestCase(unittest.TestCase):
 class SessionTestCase(unittest.TestCase):
     def test_session_load_bad(self):
         self.assertRaises(SSL.SSLError, SSL.Session.load_session,
-                          'tests/signer.pem')
+                          'test/signer.pem')
 
 class FtpslibTestCase(unittest.TestCase):
     def test_26_compat(self):

@@ -17,7 +17,7 @@ class CheckerTestCase(unittest.TestCase):
 
         check = Checker.Checker(host=srv_host,
                                 peerCertHash='CE15B128975EF740A593C4FD08717681A5229BF6')
-        x509 = X509.load_cert('tests/server.pem')
+        x509 = X509.load_cert('test/server.pem')
         assert check(x509, srv_host)
         self.assertRaises(Checker.WrongHost, check, x509, 'example.com')
 
@@ -40,8 +40,8 @@ class ContextTestCase(unittest.TestCase):
     def test_certstore(self):
         ctx = SSL.Context()
         ctx.set_verify(SSL.verify_peer | SSL.verify_fail_if_no_peer_cert, 9)
-        ctx.load_verify_locations('tests/ca.pem')
-        ctx.load_cert('tests/x509.pem')
+        ctx.load_verify_locations('test/ca.pem')
+        ctx.load_cert('test/x509.pem')
 
         store = ctx.get_cert_store()
         assert isinstance(store, X509.X509_Store)

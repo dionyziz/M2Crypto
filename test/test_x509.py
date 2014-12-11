@@ -149,16 +149,16 @@ class X509TestCase(unittest.TestCase):
 
     def test_mkreq(self):
         (req, _) = self.mkreq(1024)
-        req.save_pem('tests/tmp_request.pem')
-        req2 = X509.load_request('tests/tmp_request.pem')
-        os.remove('tests/tmp_request.pem')
-        req.save('tests/tmp_request.pem')
-        req3 = X509.load_request('tests/tmp_request.pem')
-        os.remove('tests/tmp_request.pem')
-        req.save('tests/tmp_request.der', format=X509.FORMAT_DER)
-        req4 = X509.load_request('tests/tmp_request.der',
+        req.save_pem('test/tmp_request.pem')
+        req2 = X509.load_request('test/tmp_request.pem')
+        os.remove('test/tmp_request.pem')
+        req.save('test/tmp_request.pem')
+        req3 = X509.load_request('test/tmp_request.pem')
+        os.remove('test/tmp_request.pem')
+        req.save('test/tmp_request.der', format=X509.FORMAT_DER)
+        req4 = X509.load_request('test/tmp_request.der',
                 format=X509.FORMAT_DER)
-        os.remove('tests/tmp_request.der')
+        os.remove('test/tmp_request.der')
         assert req.as_pem() == req2.as_pem()
         assert req.as_text() == req2.as_text()
         assert req.as_der() == req2.as_der()
@@ -338,37 +338,37 @@ class X509TestCase(unittest.TestCase):
         return proxycert
 
     def test_fingerprint(self):
-        x509 = X509.load_cert('tests/x509.pem')
+        x509 = X509.load_cert('test/x509.pem')
         fp = x509.get_fingerprint('sha1')
         expected = '7B8D34D23BF755BE23891AF4CAA0A9868F4C65AD'
         assert fp == expected, '%s != %s' % (fp, expected)
 
     def test_load_der_string(self):
-        f = open('tests/x509.der', 'rb')
+        f = open('test/x509.der', 'rb')
         x509 = X509.load_cert_der_string(''.join(f.readlines()))
         fp = x509.get_fingerprint('sha1')
         expected = '7B8D34D23BF755BE23891AF4CAA0A9868F4C65AD'
         assert fp == expected, '%s != %s' % (fp, expected)
 
     def test_save_der_string(self):
-        x509 = X509.load_cert('tests/x509.pem')
+        x509 = X509.load_cert('test/x509.pem')
         s = x509.as_der()
-        f = open('tests/x509.der', 'rb')
+        f = open('test/x509.der', 'rb')
         s2 = f.read()
         f.close()
         assert s == s2
 
     def test_load(self):
-        x509 = X509.load_cert('tests/x509.pem')
-        x5092 = X509.load_cert('tests/x509.der', format=X509.FORMAT_DER)
+        x509 = X509.load_cert('test/x509.pem')
+        x5092 = X509.load_cert('test/x509.der', format=X509.FORMAT_DER)
         assert x509.as_text() == x5092.as_text()
         assert x509.as_pem() == x5092.as_pem()
         assert x509.as_der() == x5092.as_der()
         return
 
     def test_load_bio(self):
-        bio = BIO.openfile('tests/x509.pem')
-        bio2 = BIO.openfile('tests/x509.der')
+        bio = BIO.openfile('test/x509.pem')
+        bio2 = BIO.openfile('test/x509.der')
         x509 = X509.load_cert_bio(bio)
         x5092 = X509.load_cert_bio(bio2, format=X509.FORMAT_DER)
 
@@ -380,10 +380,10 @@ class X509TestCase(unittest.TestCase):
         return
 
     def test_load_string(self):
-        f = open('tests/x509.pem')
+        f = open('test/x509.pem')
         s = f.read()
         f.close()
-        f2 = open('tests/x509.der', 'rb')
+        f2 = open('test/x509.der', 'rb')
         s2 = f2.read()
         f2.close()
         x509 = X509.load_cert_string(s)
@@ -409,47 +409,47 @@ class X509TestCase(unittest.TestCase):
         self.assertRaises(ValueError, X509.load_request_bio, BIO.MemoryBuffer(req.as_pem()), 345678)
 
     def test_save(self):
-        x509 = X509.load_cert('tests/x509.pem')
+        x509 = X509.load_cert('test/x509.pem')
         x509_pem = x509.as_pem()
-        f = open('tests/x509.der', 'rb')
+        f = open('test/x509.der', 'rb')
         x509_der = f.read()
         f.close()
-        x509.save('tests/tmpcert.pem')
-        f = open('tests/tmpcert.pem')
+        x509.save('test/tmpcert.pem')
+        f = open('test/tmpcert.pem')
         s = f.read()
         f.close()
         self.assertEquals(s, x509_pem)
-        os.remove('tests/tmpcert.pem')
-        x509.save('tests/tmpcert.der', format=X509.FORMAT_DER)
-        f = open('tests/tmpcert.der', 'rb')
+        os.remove('test/tmpcert.pem')
+        x509.save('test/tmpcert.der', format=X509.FORMAT_DER)
+        f = open('test/tmpcert.der', 'rb')
         s = f.read()
         f.close()
         self.assertEquals(s, x509_der)
-        os.remove('tests/tmpcert.der')
+        os.remove('test/tmpcert.der')
 
     def test_malformed_data(self):
         self.assertRaises(X509.X509Error, X509.load_cert_string, 'Hello')
         self.assertRaises(X509.X509Error, X509.load_cert_der_string, 'Hello')
         self.assertRaises(X509.X509Error, X509.new_stack_from_der, 'Hello')
-        self.assertRaises(X509.X509Error, X509.load_cert, 'tests/alltests.py')
-        self.assertRaises(X509.X509Error, X509.load_request, 'tests/alltests.py')
+        self.assertRaises(X509.X509Error, X509.load_cert, 'test/alltests.py')
+        self.assertRaises(X509.X509Error, X509.load_request, 'test/alltests.py')
         self.assertRaises(X509.X509Error, X509.load_request_string, 'Hello')
         self.assertRaises(X509.X509Error, X509.load_request_der_string, 'Hello')
-        self.assertRaises(X509.X509Error, X509.load_crl, 'tests/alltests.py')
+        self.assertRaises(X509.X509Error, X509.load_crl, 'test/alltests.py')
 
     def test_long_serial(self):
         from M2Crypto import X509
-        cert = X509.load_cert('tests/long_serial_cert.pem')
+        cert = X509.load_cert('test/long_serial_cert.pem')
         self.assertEquals(cert.get_serial_number(), 17616841808974579194)
 
-        cert = X509.load_cert('tests/thawte.pem')
+        cert = X509.load_cert('test/thawte.pem')
         self.assertEquals(cert.get_serial_number(), 127614157056681299805556476275995414779)
 
 
 class X509_StackTestCase(unittest.TestCase):
 
     def test_make_stack_from_der(self):
-        f = open("tests/der_encoded_seq.b64")
+        f = open("test/der_encoded_seq.b64")
         b64 = f.read(1304)
         seq = base64.decodestring(b64)
         stack = X509.new_stack_from_der(seq)
@@ -463,7 +463,7 @@ class X509_StackTestCase(unittest.TestCase):
         assert str(subject) == "/DC=org/DC=doegrids/OU=Services/CN=host/bosshog.lbl.gov"
 
     def test_make_stack_check_num(self):
-        f = open("tests/der_encoded_seq.b64")
+        f = open("test/der_encoded_seq.b64")
         b64 = f.read(1304)
         seq = base64.decodestring(b64)
         stack = X509.new_stack_from_der(seq)
@@ -477,8 +477,8 @@ class X509_StackTestCase(unittest.TestCase):
 
     def test_make_stack(self):
         stack = X509.X509_Stack()
-        cert = X509.load_cert("tests/x509.pem")
-        issuer = X509.load_cert("tests/ca.pem")
+        cert = X509.load_cert("test/x509.pem")
+        issuer = X509.load_cert("test/ca.pem")
         cert_subject1 = cert.get_subject()
         issuer_subject1 = issuer.get_subject()
         stack.push(cert)
@@ -500,8 +500,8 @@ class X509_StackTestCase(unittest.TestCase):
 
     def test_as_der(self):
         stack = X509.X509_Stack()
-        cert = X509.load_cert("tests/x509.pem")
-        issuer = X509.load_cert("tests/ca.pem")
+        cert = X509.load_cert("test/x509.pem")
+        issuer = X509.load_cert("test/ca.pem")
         cert_subject1 = cert.get_subject()
         issuer_subject1 = issuer.get_subject()
         stack.push(cert)

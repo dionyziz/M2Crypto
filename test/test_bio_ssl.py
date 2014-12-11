@@ -22,7 +22,7 @@ class HandshakeClient(threading.Thread):
 
     def run(self):
         ctx = SSL.Context()
-        ctx.load_cert_chain("tests/server.pem")
+        ctx.load_cert_chain("test/server.pem")
         conn = SSL.Connection(ctx)
         cipher_list = conn.get_cipher_list()
         sslbio = BIO.SSLBio()
@@ -105,7 +105,7 @@ class SSLTestCase(unittest.TestCase):
 
     def test_do_handshake_succeed(self): # XXX leaks 196/26586 bytes
         ctx = SSL.Context()
-        ctx.load_cert_chain("tests/server.pem")
+        ctx.load_cert_chain("test/server.pem")
         conn = SSL.Connection(ctx)
         self.sslbio.set_ssl(conn)
         readbio = BIO.MemoryBuffer()

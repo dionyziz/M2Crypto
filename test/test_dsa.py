@@ -10,10 +10,10 @@ from M2Crypto import DSA, BIO, Rand, m2
 
 class DSATestCase(unittest.TestCase):
 
-    errkey  = 'tests/rsa.priv.pem'
-    privkey = 'tests/dsa.priv.pem'
-    pubkey  = 'tests/dsa.pub.pem'
-    param   = 'tests/dsa.param.pem'
+    errkey  = 'test/rsa.priv.pem'
+    privkey = 'test/dsa.priv.pem'
+    pubkey  = 'test/dsa.pub.pem'
+    param   = 'test/dsa.param.pem'
 
     data = sha.sha('Can you spell subliminal channel?').digest()
     different_data = sha.sha('I can spell.').digest()

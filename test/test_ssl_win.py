@@ -40,7 +40,7 @@ if win32process:
         def start_server(self, args):
             # openssl must be started in the tests directory for it
             # to find the .pem files
-            os.chdir('tests')
+            os.chdir('test')
             try:
                 hproc, hthread, pid, tid = win32process.CreateProcess(self.openssl,
                     string.join(args), None, None, 0, win32process.DETACHED_PROCESS,

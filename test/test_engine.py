@@ -7,7 +7,7 @@ from M2Crypto import Engine, m2
 
 class EngineTestCase(unittest.TestCase):
 
-    privkey = 'tests/rsa.priv.pem'
+    privkey = 'test/rsa.priv.pem'
     bad_id = '1bea1edfeb97'
 
     def tearDown(self):

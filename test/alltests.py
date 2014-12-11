@@ -83,9 +83,9 @@ def runall(report_leaks=0):
     from M2Crypto import Rand
 
     try:
-        Rand.load_file('tests/randpool.dat', -1)
+        Rand.load_file('test/randpool.dat', -1)
         unittest.TextTestRunner(verbosity=2).run(suite())
-        Rand.save_file('tests/randpool.dat')
+        Rand.save_file('test/randpool.dat')
     finally:
         if os.name == 'posix':
             from test_ssl import zap_servers
